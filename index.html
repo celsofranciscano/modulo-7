@@ -1,0 +1,772 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Compensaciones, Incentivos y Prestaciones al Personal - Dashboard Módulo 7
+    </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              dark: { 900: "#0f172a", 800: "#1e293b", 700: "#334155" },
+              brand: {
+                blue: "#3b82f6",
+                cyan: "#06b6d4",
+                purple: "#8b5cf6",
+                green: "#10b981",
+                red: "#ef4444",
+                orange: "#f97316",
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Segoe UI", system-ui, sans-serif;
+        background-color: #0f172a;
+        color: #e2e8f0;
+      }
+      .card {
+        background-color: #1e293b;
+        border-radius: 1rem;
+        border: 1px solid #334155;
+        margin-bottom: 2rem;
+      }
+      .indicator-badge {
+        background-color: #334155;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        color: #cbd5e1;
+        margin-right: 6px;
+        display: inline-block;
+        margin-bottom: 6px;
+      }
+      .decision-box {
+        background: rgba(15, 23, 42, 0.9);
+        border-left: 5px solid;
+        padding: 1.2rem;
+        margin-top: 1.5rem;
+        border-radius: 0 0.5rem 0.5rem 0;
+      }
+      .money {
+        font-family: "Courier New", monospace;
+        font-weight: 700;
+      }
+      .chart-container {
+        position: relative;
+        height: 400px;
+        width: 100%;
+      }
+      .selector-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .company-selector {
+        background-color: #334155;
+        color: #e2e8f0;
+        border: 1px solid #475569;
+        border-radius: 8px;
+        padding: 8px 16px;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        min-width: 200px;
+      }
+      .company-selector:hover {
+        border-color: #3b82f6;
+        background-color: #475569;
+      }
+      .company-selector:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+      }
+      .legend-company {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.75rem;
+        color: #94a3b8;
+        padding: 4px 10px;
+        background: #334155;
+        border-radius: 6px;
+      }
+      .legend-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <header class="bg-dark-800 border-b border-dark-700 sticky top-0 z-50">
+      <div
+        class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-4">
+          <div class="bg-brand-blue p-3 rounded-xl">
+            <i class="fa-solid fa-chart-line text-white text-2xl"></i>
+          </div>
+          <div>
+            <h1 class="text-2xl font-bold text-white">
+              Compensaciones, Incentivos y Prestaciones al Personal
+            </h1>
+            <p class="text-sm text-brand-cyan uppercase">
+              Módulo 7: Compensaciones
+            </p>
+          </div>
+        </div>
+        <button
+          onclick="resetData()"
+          class="bg-dark-700 hover:bg-brand-red text-gray-300 hover:text-white px-4 py-2 rounded-lg transition border border-dark-700"
+        >
+          <i class="fa-solid fa-arrows-rotate mr-2"></i>Regenerar
+        </button>
+      </div>
+    </header>
+    <main
+      class="flex-grow max-w-6xl mx-auto px-4 py-8 w-full flex flex-col gap-8"
+    >
+      <!-- KPIs -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="card p-5 border-l-4 border-brand-blue">
+          <p class="text-gray-400 text-xs uppercase font-bold">Nómina Total</p>
+          <h3 class="text-2xl font-bold text-white money mt-1" id="kpi-payroll">
+            Bs. 0
+          </h3>
+        </div>
+        <div class="card p-5 border-l-4 border-brand-purple">
+          <p class="text-gray-400 text-xs uppercase font-bold">Compa-Ratio</p>
+          <h3 class="text-2xl font-bold text-white mt-1" id="kpi-compa">
+            0.00
+          </h3>
+        </div>
+        <div class="card p-5 border-l-4 border-brand-green">
+          <p class="text-gray-400 text-xs uppercase font-bold">Costo/Venta</p>
+          <h3 class="text-2xl font-bold text-white mt-1" id="kpi-ratio">0%</h3>
+        </div>
+        <div class="card p-5 border-l-4 border-brand-red">
+          <p class="text-gray-400 text-xs uppercase font-bold">Riesgo Fuga</p>
+          <h3 class="text-2xl font-bold text-white mt-1" id="kpi-risk">0</h3>
+        </div>
+      </div>
+      <!-- CHART 1: COMPETITIVIDAD -->
+      <section class="card p-6">
+        <h2 class="text-lg font-bold text-white mb-2">
+          <i class="fa-solid fa-scale-balanced text-brand-blue mr-2"></i>1.
+          Competitividad vs Mercado
+        </h2>
+        <p class="text-sm text-gray-400 mb-3">
+          ¿Pagamos lo suficiente para retener talento?
+        </p>
+        <!-- Selector de Empresa para Comparación -->
+        <div class="mb-4 p-4 bg-dark-900/50 rounded border border-dark-700">
+          <div class="selector-container">
+            <label
+              for="companySelector"
+              class="text-sm font-medium text-gray-300"
+            >
+              <i class="fa-solid fa-building mr-2"></i>Comparar con:
+            </label>
+            <select
+              id="companySelector"
+              class="company-selector"
+              onchange="updateChart1Comparison()"
+            >
+              <option value="mercado_general">
+                Mercado General (Promedio)
+              </option>
+              <option value="empresa_a">TechBolivia S.A.</option>
+              <option value="empresa_b">Innovación Digital Ltda.</option>
+              <option value="empresa_c">GlobalSoft Bolivia</option>
+              <option value="empresa_d">StartUp Hub La Paz</option>
+            </select>
+            <div id="selectedCompanyInfo" class="text-xs text-gray-400 ml-2">
+              <i class="fa-solid fa-info-circle mr-1"></i>
+              <span id="companyDescription"
+                >Benchmark del sector tecnológico en Bolivia</span
+              >
+            </div>
+          </div>
+          <!-- Leyenda de colores de empresas -->
+          <div class="mt-3 flex flex-wrap gap-2">
+            <div class="legend-company">
+              <span class="legend-dot" style="background: #3b82f6"></span>
+              <span>Nuestra Empresa</span>
+            </div>
+            <div class="legend-company">
+              <span class="legend-dot" style="background: #64748b"></span>
+              <span>Mercado General</span>
+            </div>
+            <div class="legend-company">
+              <span class="legend-dot" style="background: #8b5cf6"></span>
+              <span>TechBolivia</span>
+            </div>
+            <div class="legend-company">
+              <span class="legend-dot" style="background: #10b981"></span>
+              <span>Innovación Digital</span>
+            </div>
+            <div class="legend-company">
+              <span class="legend-dot" style="background: #f97316"></span>
+              <span>GlobalSoft</span>
+            </div>
+            <div class="legend-company">
+              <span class="legend-dot" style="background: #ec4899"></span>
+              <span>StartUp Hub</span>
+            </div>
+          </div>
+        </div>
+        <div class="mb-4 p-3 bg-dark-900/50 rounded border border-dark-700">
+          <p class="text-xs text-gray-300">
+            <strong>Variables:</strong> Salario Actual (Bs), Salario Mercado,
+            Compa-Ratio, Nivel
+          </p>
+          <p class="text-xs text-gray-400 mt-1">
+            <strong>Indicadores:</strong>
+            <span class="indicator-badge">Base Salarial</span
+            ><span class="indicator-badge">Benchmark</span
+            ><span class="indicator-badge">Ratio</span>
+          </p>
+        </div>
+        <div
+          class="chart-container bg-dark-900/30 rounded-lg border border-dark-700"
+        >
+          <canvas id="chart1"></canvas>
+        </div>
+        <div class="decision-box border-brand-blue">
+          <p class="text-sm text-gray-300">
+            <strong class="text-brand-blue">Decisión:</strong> Si interno &lt;
+            mercado → Ajuste inmediato. Si interno &gt; mercado → Justificar con
+            desempeño.
+          </p>
+        </div>
+      </section>
+      <!-- CHART 2: EQUIDAD INTERNA -->
+      <section class="card p-6">
+        <h2 class="text-lg font-bold text-white mb-2">
+          <i class="fa-solid fa-users-viewfinder text-brand-purple mr-2"></i>2.
+          Equidad Interna
+        </h2>
+        <p class="text-sm text-gray-400 mb-3">
+          ¿Existen injusticias salariales por antigüedad?
+        </p>
+        <div class="mb-4 p-3 bg-dark-900/50 rounded border border-dark-700">
+          <p class="text-xs text-gray-300">
+            <strong>Variables:</strong> Antigüedad (años), Salario (Bs), Nivel,
+            Desempeño
+          </p>
+          <p class="text-xs text-gray-400 mt-1">
+            <strong>Indicadores:</strong>
+            <span class="indicator-badge">Años Empresa</span
+            ><span class="indicator-badge">Salario Mensual</span
+            ><span class="indicator-badge">Categoría</span>
+          </p>
+        </div>
+        <div
+          class="chart-container bg-dark-900/30 rounded-lg border border-dark-700"
+        >
+          <canvas id="chart2"></canvas>
+        </div>
+        <div class="decision-box border-brand-purple">
+          <p class="text-sm text-gray-300">
+            <strong class="text-brand-purple">Decisión:</strong> Puntos
+            arriba-izquierda → Auditar. Puntos abajo-derecha → Plan de carrera.
+          </p>
+        </div>
+      </section>
+      <!-- CHART 3: SOSTENIBILIDAD TEMPORAL -->
+      <section class="card p-6">
+        <h2 class="text-lg font-bold text-white mb-2">
+          <i class="fa-solid fa-calendar-days text-brand-green mr-2"></i>3.
+          Sostenibilidad en el Tiempo
+        </h2>
+        <p class="text-sm text-gray-400 mb-3">
+          Evolución mensual: ¿Es sostenible el costo laboral?
+        </p>
+        <div class="mb-4 p-3 bg-dark-900/50 rounded border border-dark-700">
+          <p class="text-xs text-gray-300">
+            <strong>Variables:</strong> Mes/Año, Ingresos (Bs), Costo Personal
+            (Bs), Ratio
+          </p>
+          <p class="text-xs text-gray-400 mt-1">
+            <strong>Indicadores:</strong>
+            <span class="indicator-badge">Fecha</span
+            ><span class="indicator-badge">Ventas</span
+            ><span class="indicator-badge">Nómina Total</span
+            ><span class="indicator-badge">% Costo</span>
+          </p>
+        </div>
+        <div
+          class="chart-container bg-dark-900/30 rounded-lg border border-dark-700"
+        >
+          <canvas id="chart3"></canvas>
+        </div>
+        <div class="decision-box border-brand-green">
+          <p class="text-sm text-gray-300">
+            <strong class="text-brand-green">Decisión:</strong> Si línea costo
+            se acerca a línea ingresos → Congelar contrataciones.
+          </p>
+        </div>
+      </section>
+      <!-- CHART 4: INCENTIVOS -->
+      <section class="card p-6">
+        <h2 class="text-lg font-bold text-white mb-2">
+          <i class="fa-solid fa-trophy text-brand-orange mr-2"></i>4. Impacto de
+          Incentivos
+        </h2>
+        <p class="text-sm text-gray-400 mb-3">
+          ¿Los bonos realmente mejoran el desempeño?
+        </p>
+        <div class="mb-4 p-3 bg-dark-900/50 rounded border border-dark-700">
+          <p class="text-xs text-gray-300">
+            <strong>Variables:</strong> Bono (Bs), Puntualidad (%), Calidad (%),
+            Cliente (1-10), Score Final
+          </p>
+          <p class="text-xs text-gray-400 mt-1">
+            <strong>Indicadores:</strong>
+            <span class="indicator-badge">Monto Bono</span
+            ><span class="indicator-badge">Puntualidad</span
+            ><span class="indicator-badge">Calidad</span
+            ><span class="indicator-badge">Satisfacción Cliente</span
+            ><span class="indicator-badge">Score Global</span>
+          </p>
+        </div>
+        <div
+          class="chart-container bg-dark-900/30 rounded-lg border border-dark-700"
+        >
+          <canvas id="chart4"></canvas>
+        </div>
+        <div class="decision-box border-brand-orange">
+          <p class="text-sm text-gray-300">
+            <strong class="text-brand-orange">Decisión:</strong> Alto bono +
+            bajo desempeño → Eliminar incentivo. Bajo bono + alto desempeño →
+            Aumentar sueldo base.
+          </p>
+        </div>
+      </section>
+      <!-- CHART 5: RETENCIÓN -->
+      <section class="card p-6">
+        <h2 class="text-lg font-bold text-white mb-2">
+          <i class="fa-solid fa-triangle-exclamation text-brand-red mr-2"></i>5.
+          Riesgo de Rotación
+        </h2>
+        <p class="text-sm text-gray-400 mb-3">
+          ¿Quiénes tienen mayor probabilidad de renunciar?
+        </p>
+        <div class="mb-4 p-3 bg-dark-900/50 rounded border border-dark-700">
+          <p class="text-xs text-gray-300">
+            <strong>Variables:</strong> Brecha Salarial (%), Burnout, Tiempo sin
+            Ascenso, Desempeño
+          </p>
+          <p class="text-xs text-gray-400 mt-1">
+            <strong>Indicadores:</strong>
+            <span class="indicator-badge">% vs Mercado</span
+            ><span class="indicator-badge">Horas Extra</span
+            ><span class="indicator-badge">Meses sin Ascenso</span
+            ><span class="indicator-badge">Valoración Talento</span>
+          </p>
+        </div>
+        <div
+          class="chart-container bg-dark-900/30 rounded-lg border border-dark-700"
+        >
+          <canvas id="chart5"></canvas>
+        </div>
+        <div class="decision-box border-brand-red">
+          <p class="text-sm text-gray-300">
+            <strong class="text-brand-red">Decisión:</strong> Riesgo &gt;80% →
+            Entrevista de retención INMEDIATA. Priorizar talento de alto
+            desempeño.
+          </p>
+        </div>
+      </section>
+    </main>
+    <footer class="bg-dark-800 border-t border-dark-700 py-6 mt-4">
+      <div class="max-w-6xl mx-auto px-4 text-center">
+        <p class="text-gray-400 text-sm italic">
+          "No se trata de pagar más, sino de pagar mejor, justo y
+          estratégicamente."
+        </p>
+        <div
+          class="flex justify-center items-center gap-2 text-gray-500 text-sm mt-2"
+        >
+          <span>Desarrollado por <strong>Celso Franciscano</strong></span>
+          <span>|</span>
+          <a
+            href="https://github.com/celsfranciscano"
+            target="_blank"
+            class="hover:text-brand-cyan transition"
+          >
+            <i class="fa-brands fa-github mr-1"></i>GitHub
+          </a>
+        </div>
+      </div>
+    </footer>
+    <script>
+      // === DATOS SIMULADOS ===
+      const names = [
+        "Ana",
+        "Carlos",
+        "Maria",
+        "Jorge",
+        "Luis",
+        "Sofia",
+        "Pedro",
+        "Valentina",
+        "Andres",
+        "Camila",
+      ];
+
+      const surnames = [
+        "Mamani",
+        "Quispe",
+        "Condori",
+        "Flores",
+        "Torrez",
+        "Vargas",
+        "Guzman",
+        "Pena",
+        "Rivera",
+      ];
+
+      const roles = [
+        { title: "Gerente General", market: 25000 },
+        { title: "Administrador", market: 12000 },
+        { title: "Contador", market: 8000 },
+        { title: "Asistente Administrativo", market: 5000 },
+        { title: "Secretaria", market: 4500 },
+
+        { title: "Recursos Humanos", market: 7000 },
+        { title: "Supervisor", market: 7500 },
+        { title: "Vendedor", market: 5000 },
+        { title: "Atención al Cliente", market: 4500 },
+
+        { title: "Soporte Técnico", market: 6000 },
+        { title: "Desarrollador Senior", market: 14000 },
+        { title: "Desarrollador Junior", market: 7000 },
+
+        { title: "Marketing", market: 6500 },
+        { title: "Almacenero", market: 4000 },
+      ];
+
+      // función random más clara y segura
+      const rand = (min, max) => {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      };
+      function generateData() {
+        const employees = [];
+        for (let i = 0; i < 25; i++) {
+          const role = roles[rand(0, roles.length - 1)];
+          const salary = Math.floor(role.market * (rand(85, 125) / 100));
+          const years = rand(0, 12),
+            perf = rand(50, 100),
+            ratio = salary / role.market;
+          const risk =
+            ratio < 0.9 && perf > 75
+              ? rand(85, 99)
+              : ratio < 0.95
+                ? rand(50, 80)
+                : rand(5, 40);
+          employees.push({
+            name: `${names[rand(0, names.length - 1)]} ${surnames[rand(0, surnames.length - 1)]}`,
+            role: role.title,
+            salary,
+            market: role.market,
+            years,
+            perf,
+            risk,
+            bonus: perf > 80 ? salary * 0.2 : perf > 60 ? salary * 0.1 : 0,
+          });
+        }
+        const history = [],
+          months = [
+            "Ene",
+            "Feb",
+            "Mar",
+            "Abr",
+            "May",
+            "Jun",
+            "Jul",
+            "Ago",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dic",
+          ];
+        let base = 200000;
+        for (let y = 2025; y <= 2026; y++) {
+          for (let m = 0; m < (y === 2026 ? 5 : 12); m++) {
+            base = Math.floor(base * 1.02);
+            history.push({
+              label: `${months[m]} ${y}`,
+              revenue: Math.floor(base * (rand(90, 110) / 100)),
+              payroll: Math.floor(base * (rand(40, 50) / 100)),
+            });
+          }
+        }
+        return { employees, history };
+      }
+
+      function loadData() {
+        let d = localStorage.getItem("crucial_v7");
+        if (!d) {
+          d = JSON.stringify(generateData());
+          localStorage.setItem("crucial_v7", d);
+        }
+        return JSON.parse(d);
+      }
+      function resetData() {
+        localStorage.removeItem("crucial_v7");
+        location.reload();
+      }
+
+      // === GRÁFICOS (SINTAXIS CORREGIDA) ===
+      window.addEventListener("load", function () {
+        const { employees, history } = loadData();
+
+        // KPIs
+        const totalPay = employees.reduce((s, e) => s + e.salary, 0);
+        const avgRatio = (
+          employees.reduce((s, e) => s + e.salary / e.market, 0) /
+          employees.length
+        ).toFixed(2);
+        const lastRev = history[history.length - 1].revenue;
+        document.getElementById("kpi-payroll").textContent =
+          `Bs. ${totalPay.toLocaleString("es-BO")}`;
+        document.getElementById("kpi-compa").textContent = avgRatio;
+        document.getElementById("kpi-ratio").textContent =
+          `${((totalPay / lastRev) * 100).toFixed(1)}%`;
+        document.getElementById("kpi-risk").textContent = employees.filter(
+          (e) => e.risk > 80,
+        ).length;
+
+        const C = {
+          blue: "rgba(59,130,246,0.8)",
+          gray: "rgba(148,163,184,0.5)",
+          green: "rgba(16,185,129,0.8)",
+          red: "rgba(239,68,68,0.8)",
+          purple: "rgba(139,92,246,0.8)",
+          orange: "rgba(249,115,22,0.8)",
+        };
+
+        // CHART 1: Competitividad (Bar)
+        const rolesData = {};
+        employees.forEach((e) => {
+          if (!rolesData[e.role]) rolesData[e.role] = { a: [], m: [] };
+          rolesData[e.role].a.push(e.salary);
+          rolesData[e.role].m.push(e.market);
+        });
+        const labels1 = Object.keys(rolesData);
+        const avgActual = labels1.map(
+          (r) => rolesData[r].a.reduce((x, y) => x + y) / rolesData[r].a.length,
+        );
+        const avgMarket = labels1.map(
+          (r) => rolesData[r].m.reduce((x, y) => x + y) / rolesData[r].m.length,
+        );
+
+        new Chart(document.getElementById("chart1"), {
+          type: "bar",
+          data: {
+            // ✅ CORREGIDO: clave "data:" añadida
+            labels: labels1,
+            datasets: [
+              {
+                label: "Interno (Bs)",
+                data: avgActual,
+                backgroundColor: C.blue,
+              },
+              {
+                label: "Mercado (Bs)",
+                data: avgMarket,
+                backgroundColor: C.gray,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { labels: { color: "#fff" } } },
+            scales: {
+              y: { grid: { color: "#334155" }, ticks: { color: "#94a3b8" } },
+              x: { grid: { display: false }, ticks: { color: "#94a3b8" } },
+            },
+          },
+        });
+
+        // CHART 2: Equidad (Scatter)
+        new Chart(document.getElementById("chart2"), {
+          type: "scatter",
+          data: {
+            // ✅ CORREGIDO
+            datasets: [
+              {
+                label: "Empleado",
+                data: employees.map((e) => ({ x: e.years, y: e.salary })),
+                backgroundColor: C.purple,
+                pointRadius: 7,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: {
+                title: { display: true, text: "Años", color: "#94a3b8" },
+                grid: { color: "#334155" },
+                ticks: { color: "#94a3b8" },
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: "Salario (Bs)",
+                  color: "#94a3b8",
+                },
+                grid: { color: "#334155" },
+                ticks: { color: "#94a3b8" },
+              },
+            },
+          },
+        });
+
+        // CHART 3: Tiempo (Line)
+        new Chart(document.getElementById("chart3"), {
+          type: "line",
+          data: {
+            // ✅ CORREGIDO
+            labels: history.map((h) => h.label),
+            datasets: [
+              {
+                label: "Ingresos",
+                data: history.map((h) => h.revenue),
+                borderColor: C.green,
+                backgroundColor: "rgba(16,185,129,0.1)",
+                fill: true,
+                tension: 0.3,
+              },
+              {
+                label: "Costo Personal",
+                data: history.map((h) => h.payroll),
+                borderColor: C.red,
+                borderDash: [5, 5],
+                tension: 0.3,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { labels: { color: "#fff" } } },
+            scales: {
+              y: { grid: { color: "#334155" }, ticks: { color: "#94a3b8" } },
+              x: {
+                grid: { color: "#334155" },
+                ticks: { color: "#94a3b8", maxRotation: 45, minRotation: 45 },
+              },
+            },
+          },
+        });
+
+        // CHART 4: Incentivos (Scatter)
+        new Chart(document.getElementById("chart4"), {
+          type: "scatter",
+          data: {
+            datasets: [
+              {
+                label: "Datos",
+                data: employees.map((e) => ({
+                  x: e.bonus,
+                  y: e.perf,
+                })),
+                backgroundColor: employees.map((e) =>
+                  e.perf > 80 ? C.orange : C.blue,
+                ),
+                pointRadius: 8,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+            },
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: "Bono (Bs)",
+                  color: "#94a3b8",
+                },
+                grid: { color: "#334155" },
+                ticks: { color: "#94a3b8" },
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: "Desempeño",
+                  color: "#94a3b8",
+                },
+                grid: { color: "#334155" },
+                ticks: { color: "#94a3b8" },
+                min: 0,
+                max: 100,
+              },
+            },
+          },
+        });
+
+        // CHART 5: Retención (Horizontal Bar)
+        const riskEmps = employees
+          .filter((e) => e.risk > 30)
+          .sort((a, b) => b.risk - a.risk)
+          .slice(0, 12);
+        new Chart(document.getElementById("chart5"), {
+          type: "bar",
+          data: {
+            // ✅ CORREGIDO
+            labels: riskEmps.map((e) => e.name),
+            datasets: [
+              {
+                label: "Riesgo %",
+                data: riskEmps.map((e) => e.risk),
+                backgroundColor: riskEmps.map((e) =>
+                  e.risk > 80 ? C.red : e.risk > 50 ? C.orange : C.blue,
+                ),
+              },
+            ],
+          },
+          options: {
+            indexAxis: "y",
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: {
+                max: 100,
+                grid: { color: "#334155" },
+                ticks: { color: "#94a3b8" },
+              },
+              y: { grid: { display: false }, ticks: { color: "#fff" } },
+            },
+          },
+        });
+      });
+    </script>
+  </body>
+</html>

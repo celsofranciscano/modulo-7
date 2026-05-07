@@ -189,17 +189,6 @@
       </nav>
 
       <div class="mt-auto p-4 border-t border-dark-700">
-        <div class="flex items-center gap-3">
-          <div
-            class="w-8 h-8 rounded-full bg-gradient-to-tr from-brand-blue to-brand-purple flex items-center justify-center text-white font-bold text-xs"
-          >
-            CF
-          </div>
-          <div>
-            <p class="text-sm text-white font-medium">Celso Franciscano</p>
-            <p class="text-xs text-gray-500">Admin</p>
-          </div>
-        </div>
         <div class="mt-4 pt-4 border-t border-dark-700 text-center">
           <a
             href="https://github.com/celsfranciscano"
@@ -222,198 +211,542 @@
         </button>
       </div>
 
-      <!-- KPI Section -->
+      <!-- RESUMEN GENERAL -->
       <div id="kpi-section" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <!-- TOTAL SUELDOS -->
         <div class="card p-5 border-l-4 border-brand-blue">
-          <p class="text-gray-400 text-xs uppercase font-bold">Nómina Total</p>
+          <p class="text-gray-400 text-xs uppercase font-bold">
+            Gasto Total en Sueldos
+          </p>
+
           <h3 class="text-2xl font-bold text-white money mt-1" id="kpi-payroll">
             Bs. 0
           </h3>
+
+          <p class="text-xs text-gray-500 mt-2">
+            Total que la empresa paga al personal.
+          </p>
         </div>
+
+        <!-- COMPARACIÓN SALARIAL -->
         <div class="card p-5 border-l-4 border-brand-purple">
           <p class="text-gray-400 text-xs uppercase font-bold">
-            Compa-Ratio Prom.
+            Nivel Salarial Promedio
           </p>
+
           <h3 class="text-2xl font-bold text-white mt-1" id="kpi-compa">
             0.00
           </h3>
+
+          <p class="text-xs text-gray-500 mt-2">
+            Comparación de salarios frente al mercado laboral.
+          </p>
         </div>
+
+        <!-- COSTO EMPLEADOS -->
         <div class="card p-5 border-l-4 border-brand-green">
-          <p class="text-gray-400 text-xs uppercase font-bold">Costo/Venta</p>
+          <p class="text-gray-400 text-xs uppercase font-bold">
+            Porcentaje de Gasto en Personal
+          </p>
+
           <h3 class="text-2xl font-bold text-white mt-1" id="kpi-ratio">0%</h3>
+
+          <p class="text-xs text-gray-500 mt-2">
+            Parte de los ingresos usada para pagar empleados.
+          </p>
         </div>
+
+        <!-- RIESGO -->
         <div class="card p-5 border-l-4 border-brand-red">
           <p class="text-gray-400 text-xs uppercase font-bold">
-            Riesgo Fuga (Alto)
+            Empleados en Riesgo de Renuncia
           </p>
+
           <h3 class="text-2xl font-bold text-white mt-1" id="kpi-risk">0</h3>
+
+          <p class="text-xs text-gray-500 mt-2">
+            Personal con alta probabilidad de dejar la empresa.
+          </p>
         </div>
       </div>
 
       <!-- CHART 1: COMPETITIVIDAD -->
       <section id="chart1-section" class="card p-6 mb-8 scroll-mt-24">
+        <!-- TITULO -->
+        <h2 class="text-lg font-bold text-white">
+          <i class="fa-solid fa-scale-balanced text-brand-blue mr-2"></i>
+          Competitividad Salarial vs Mercado Laboral
+        </h2>
+
+        <!-- DESCRIPCION -->
+        <p class="text-sm text-gray-400 mt-1">
+          Evalúa si la empresa paga por encima, igual o por debajo del mercado
+          laboral para identificar riesgo de fuga de talento o sobrecostos
+          salariales.
+        </p>
+
+        <!-- VARIABLES CLARAS -->
         <div
-          class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4"
+          class="mb-4 p-3 bg-dark-900/30 rounded border border-dark-700 mt-3"
         >
-          <div>
-            <h2 class="text-lg font-bold text-white">
-              <i class="fa-solid fa-scale-balanced text-brand-blue mr-2"></i>1.
-              Competitividad vs Mercado
-            </h2>
-            <p class="text-sm text-gray-400">
-              Comparativa salarial por puesto.
-            </p>
-          </div>
+          <p class="text-xs text-gray-300 font-bold">
+            Variables internas (empresa):
+          </p>
+          <p class="text-xs text-gray-400">
+            • Salario base mensual (Bs)<br />
+            • Cargo del empleado<br />
+            • Área organizacional (TI, RRHH, Ventas, Administración)
+          </p>
 
-          <!-- Selector de Empresa -->
-          <div
-            class="bg-dark-900/50 p-3 rounded-lg border border-dark-700 w-full md:w-auto"
-          >
-            <label class="text-xs text-gray-400 block mb-1"
-              >Comparar contra:</label
-            >
-            <select
-              id="companySelector"
-              class="company-selector w-full"
-              onchange="updateChart1Comparison()"
-            >
-              <option value="mercado_general">
-                Mercado General (Promedio)
-              </option>
-              <option value="empresa_a">TechBolivia S.A. (Premium)</option>
-              <option value="empresa_b">Innovación Digital (Startup)</option>
-              <option value="empresa_c">
-                GlobalSoft Bolivia (Corporativo)
-              </option>
-              <option value="empresa_d">StartUp Hub La Paz (Variable)</option>
-            </select>
-          </div>
-        </div>
+          <p class="text-xs text-gray-300 font-bold mt-2">
+            Variables externas (mercado):
+          </p>
+          <p class="text-xs text-gray-400">
+            • Salario promedio del mercado por cargo<br />
+            • Rango salarial por industria
+          </p>
 
-        <div class="mb-4 p-3 bg-dark-900/30 rounded border border-dark-700">
-          <p class="text-xs text-gray-300">
-            <strong>Variables:</strong> Salario Actual (Bs) vs Salario Externo
+          <p class="text-xs text-gray-300 font-bold mt-2">Indicador clave:</p>
+          <p class="text-xs text-gray-400">
+            • Brecha salarial (%) = diferencia entre salario empresa y mercado
           </p>
         </div>
 
+        <!-- SELECTOR -->
+        <div
+          class="bg-dark-900/50 p-3 rounded-lg border border-dark-700 w-full md:w-auto mb-4"
+        >
+          <label class="text-xs text-gray-400 block mb-1">
+            Comparación contra:
+          </label>
+
+          <select
+            id="companySelector"
+            class="company-selector w-full"
+            onchange="updateChart1Comparison()"
+          >
+            <option value="mercado_general">Mercado general</option>
+            <option value="empresa_a">
+              Empresa premium (alta remuneración)
+            </option>
+            <option value="empresa_b">Startup (baja remuneración)</option>
+            <option value="empresa_c">Corporativo estable</option>
+            <option value="empresa_d">Empresa variable por desempeño</option>
+          </select>
+        </div>
+
+        <!-- GRAFICA -->
         <div
           class="chart-container bg-dark-900/30 rounded-lg border border-dark-700 p-2"
         >
           <canvas id="chart1"></canvas>
         </div>
 
-        <div class="decision-box border-brand-blue">
-          <p class="text-sm text-gray-300">
-            <strong class="text-brand-blue"
-              ><i class="fa-solid fa-lightbulb mr-1"></i> Insight:</strong
-            >
-            Si nuestras barras azules están por debajo de las grises, estamos
-            perdiendo talento clave. Ajusta el selector para ver cómo nos
-            comparamos con competidores específicos.
+        <!-- INTERPRETACION -->
+        <div class="mt-4 p-3 bg-dark-900/30 rounded border border-dark-700">
+          <p class="text-sm text-brand-blue font-bold">
+            Interpretación gerencial:
           </p>
+
+          <ul class="text-sm text-gray-400 mt-2 space-y-2">
+            <li>
+              🔴 Si salario empresa < mercado (−10% o más):<br />
+              → Alta probabilidad de fuga de talento crítico.
+            </li>
+
+            <li>
+              🟡 Si salario empresa ≈ mercado (±5%):<br />
+              → Estabilidad laboral sin ventaja competitiva.
+            </li>
+
+            <li>
+              🟢 Si salario empresa > mercado (+10% o más):<br />
+              → Alta retención, pero posible sobrecosto salarial.
+            </li>
+          </ul>
+        </div>
+
+        <!-- DECISIONES -->
+        <div class="decision-box border-brand-blue">
+          <p class="text-sm text-brand-blue font-bold">
+            Decisiones del gerente general:
+          </p>
+
+          <ul class="text-sm text-gray-300 mt-2 space-y-2">
+            <li>• Ajustar salarios únicamente en puestos críticos</li>
+
+            <li>
+              • Implementar bonos de retención en talento estratégico (TI,
+              ventas, liderazgo)
+            </li>
+
+            <li>• Congelar incrementos generales si hay sobrecosto salarial</li>
+
+            <li>• Rediseñar bandas salariales por cargo y no por persona</li>
+
+            <li>
+              • Priorizar negociación de permanencia en empleados de alto
+              impacto
+            </li>
+          </ul>
         </div>
       </section>
 
       <!-- CHART 2: EQUIDAD INTERNA -->
+      <!-- CHART 2: EQUIDAD INTERNA -->
+      <!-- CHART 2: EQUIDAD INTERNA -->
       <section id="chart2-section" class="card p-6 mb-8 scroll-mt-24">
+        <!-- TITULO -->
         <h2 class="text-lg font-bold text-white mb-2">
-          <i class="fa-solid fa-users-viewfinder text-brand-purple mr-2"></i>2.
-          Equidad Interna
+          <i class="fa-solid fa-users-viewfinder text-brand-purple mr-2"></i>
+          Equidad Interna Salarial
         </h2>
+
+        <!-- DESCRIPCION -->
         <p class="text-sm text-gray-400 mb-3">
-          Relación Antigüedad vs Salario.
+          Evalúa si la remuneración es justa dentro de la empresa comparando
+          antigüedad, salario y desempeño para detectar desigualdades internas.
         </p>
 
+        <!-- VARIABLES + TIPOS DE PAGO -->
+        <div class="mb-4 p-3 bg-dark-900/30 rounded border border-dark-700">
+          <p class="text-xs text-gray-300 font-bold">Variables analizadas:</p>
+
+          <p class="text-xs text-gray-400">
+            • Antigüedad del empleado (años)<br />
+            • Salario mensual total (Bs)<br />
+            • Desempeño laboral (%)<br />
+            • Cargo / nivel jerárquico
+          </p>
+
+          <p class="text-xs text-gray-300 font-bold mt-3">
+            Componentes de la remuneración:
+          </p>
+
+          <p class="text-xs text-gray-400">
+            • <strong>Compensación:</strong> sueldo base, horas extras,
+            comisiones<br />
+            • <strong>Incentivo:</strong> bonos por metas o desempeño<br />
+            • <strong>Prestación:</strong> aguinaldo, vacaciones, indemnización
+          </p>
+
+          <p class="text-xs text-gray-300 font-bold mt-3">Indicador clave:</p>
+
+          <p class="text-xs text-gray-400">
+            • Relación equidad = salario vs antigüedad vs desempeño
+          </p>
+        </div>
+
+        <!-- GRAFICA -->
         <div
           class="chart-container bg-dark-900/30 rounded-lg border border-dark-700 p-2"
         >
           <canvas id="chart2"></canvas>
         </div>
-        <div class="decision-box border-brand-purple">
-          <p class="text-sm text-gray-300">
-            <strong class="text-brand-purple">Decisión:</strong> Puntos
-            arriba-izquierda (Caros/Nuevos) vs Abajo-derecha (Baratos/Viejos).
-            Detectar techos de cristal.
+
+        <!-- INTERPRETACION -->
+        <div class="mt-4 p-3 bg-dark-900/30 rounded border border-dark-700">
+          <p class="text-sm text-brand-purple font-bold">
+            Interpretación gerencial:
           </p>
+
+          <ul class="text-sm text-gray-400 mt-2 space-y-2">
+            <li class="text-red-400">
+              🔴 Desbalance crítico (muy alto o muy bajo salario vs
+              antigüedad):<br />
+              → Riesgo de fuga de talento o sobrecosto salarial.
+            </li>
+
+            <li class="text-yellow-400">
+              🟡 Desajuste leve entre salario y antigüedad:<br />
+              → Requiere revisión, pero no acción inmediata.
+            </li>
+
+            <li class="text-green-400">
+              🟢 Relación equilibrada salario–antigüedad–desempeño:<br />
+              → Estructura salarial saludable.
+            </li>
+          </ul>
+        </div>
+
+        <!-- DECISIONES -->
+        <div class="decision-box border-brand-purple">
+          <p class="text-sm text-brand-purple font-bold">
+            Decisiones del gerente general:
+          </p>
+
+          <ul class="text-sm text-gray-300 mt-2 space-y-2">
+            <li>• Ajustar salarios de empleados senior subpagados</li>
+
+            <li>• Corregir inequidades en contrataciones recientes</li>
+
+            <li>• Eliminar diferencias salariales injustificadas</li>
+
+            <li>• Estandarizar bandas salariales por nivel jerárquico</li>
+
+            <li>• Revisar coherencia entre desempeño y remuneración total</li>
+          </ul>
         </div>
       </section>
 
       <!-- CHART 3: SOSTENIBILIDAD -->
+      <!-- CHART 3: SOSTENIBILIDAD -->
       <section id="chart3-section" class="card p-6 mb-8 scroll-mt-24">
+        <!-- TITULO -->
         <h2 class="text-lg font-bold text-white mb-2">
-          <i class="fa-solid fa-calendar-days text-brand-green mr-2"></i>3.
+          <i class="fa-solid fa-calendar-days text-brand-green mr-2"></i>
           Sostenibilidad Temporal
         </h2>
+
+        <!-- DESCRIPCION -->
         <p class="text-sm text-gray-400 mb-3">
-          Evolución Ingresos vs Nómina (2025-2026).
+          Evalúa si la empresa puede sostener su estructura de pagos en el
+          tiempo comparando ingresos vs nómina.
         </p>
 
+        <!-- VARIABLES -->
+        <div class="mb-4 p-3 bg-dark-900/30 rounded border border-dark-700">
+          <p class="text-xs text-gray-300 font-bold">Variables financieras:</p>
+
+          <p class="text-xs text-gray-400">
+            • Ingresos mensuales (ventas totales)<br />
+            • Gasto en nómina (sueldos + beneficios)<br />
+            • Crecimiento de ingresos (%)<br />
+            • Crecimiento de costos de personal (%)
+          </p>
+
+          <p class="text-xs text-gray-300 font-bold mt-3">Indicador clave:</p>
+
+          <p class="text-xs text-gray-400">
+            • Sostenibilidad = Ingresos - Costos de personal
+          </p>
+        </div>
+
+        <!-- GRAFICA -->
         <div
           class="chart-container bg-dark-900/30 rounded-lg border border-dark-700 p-2"
         >
           <canvas id="chart3"></canvas>
         </div>
-        <div class="decision-box border-brand-green">
-          <p class="text-sm text-gray-300">
-            <strong class="text-brand-green">Decisión:</strong> Monitorear que
-            la brecha entre ingresos (verde) y costos (rojo) se mantenga
-            saludable (>30%).
+
+        <!-- INTERPRETACION -->
+        <div class="mt-4 p-3 bg-dark-900/30 rounded border border-dark-700">
+          <p class="text-sm text-brand-green font-bold">
+            Interpretación gerencial:
           </p>
+
+          <ul class="text-sm text-gray-400 mt-2 space-y-2">
+            <li class="text-red-400">
+              🔴 Nómina cercana o mayor a ingresos:<br />
+              → Empresa financieramente insostenible, alto riesgo de crisis.
+            </li>
+
+            <li class="text-yellow-400">
+              🟡 Brecha pequeña entre ingresos y costos:<br />
+              → Situación controlada, pero vulnerable a crisis externas.
+            </li>
+
+            <li class="text-green-400">
+              🟢 Ingresos significativamente mayores a costos (>30%):<br />
+              → Empresa estable y financieramente saludable.
+            </li>
+          </ul>
+        </div>
+
+        <!-- DECISIONES -->
+        <div class="decision-box border-brand-green">
+          <p class="text-sm text-brand-green font-bold">
+            Decisiones del gerente general:
+          </p>
+
+          <ul class="text-sm text-gray-300 mt-2 space-y-2">
+            <li>• Controlar crecimiento de la nómina frente a ingresos</li>
+
+            <li>• Congelar contrataciones si la brecha se reduce</li>
+
+            <li>• Optimizar costos de personal en áreas no críticas</li>
+
+            <li>• Impulsar aumento de productividad antes de subir salarios</li>
+
+            <li>• Mantener margen financiero mínimo del 30%</li>
+          </ul>
         </div>
       </section>
 
       <!-- CHART 4: INCENTIVOS -->
+      <!-- CHART 4: INCENTIVOS -->
       <section id="chart4-section" class="card p-6 mb-8 scroll-mt-24">
+        <!-- TITULO -->
         <h2 class="text-lg font-bold text-white mb-2">
-          <i class="fa-solid fa-trophy text-brand-orange mr-2"></i>4. Impacto de
-          Incentivos
+          <i class="fa-solid fa-trophy text-brand-orange mr-2"></i>
+          Impacto de Incentivos
         </h2>
+
+        <!-- DESCRIPCION -->
         <p class="text-sm text-gray-400 mb-3">
-          Correlación Bonos vs Desempeño.
+          Analiza si los bonos e incentivos realmente están alineados con el
+          desempeño laboral de los empleados.
         </p>
 
+        <!-- VARIABLES -->
+        <div class="mb-4 p-3 bg-dark-900/30 rounded border border-dark-700">
+          <p class="text-xs text-gray-300 font-bold">Variables analizadas:</p>
+
+          <p class="text-xs text-gray-400">
+            • Bonos recibidos (Bs)<br />
+            • Desempeño laboral (%)<br />
+            • Cargo del empleado<br />
+            • Área o departamento
+          </p>
+
+          <p class="text-xs text-gray-300 font-bold mt-3">Indicador clave:</p>
+
+          <p class="text-xs text-gray-400">
+            • Relación incentivo = bono vs desempeño
+          </p>
+        </div>
+
+        <!-- GRAFICA -->
         <div
           class="chart-container bg-dark-900/30 rounded-lg border border-dark-700 p-2"
         >
           <canvas id="chart4"></canvas>
         </div>
-        <div class="decision-box border-brand-orange">
-          <p class="text-sm text-gray-300">
-            <strong class="text-brand-orange">Decisión:</strong> Identificar
-            outliers (alto bono/bajo desempeño) para revisar política de
-            compensación variable.
+
+        <!-- INTERPRETACION -->
+        <div class="mt-4 p-3 bg-dark-900/30 rounded border border-dark-700">
+          <p class="text-sm text-brand-orange font-bold">
+            Interpretación gerencial:
           </p>
+
+          <ul class="text-sm text-gray-400 mt-2 space-y-2">
+            <li>
+              🔴 Alto bono + bajo desempeño:<br />
+              → Posible mala asignación de incentivos o favoritismo.
+            </li>
+
+            <li>
+              🟡 Bono proporcional al desempeño:<br />
+              → Política de incentivos bien alineada.
+            </li>
+
+            <li>
+              🟢 Bajo bono + alto desempeño:<br />
+              → Riesgo de desmotivación y pérdida de talento clave.
+            </li>
+          </ul>
+        </div>
+
+        <!-- DECISIONES -->
+        <div class="decision-box border-brand-orange">
+          <p class="text-sm text-brand-orange font-bold">
+            Decisiones del gerente general:
+          </p>
+
+          <ul class="text-sm text-gray-300 mt-2 space-y-2">
+            <li>• Revisar bonos otorgados sin relación a resultados</li>
+
+            <li>• Reajustar esquema de incentivos por desempeño real</li>
+
+            <li>• Eliminar bonos fijos no justificados</li>
+
+            <li>• Fortalecer bonos variables en áreas productivas</li>
+
+            <li>• Implementar evaluación de desempeño trimestral</li>
+          </ul>
         </div>
       </section>
 
       <!-- CHART 5: RETENCIÓN -->
+      <!-- CHART 5: RETENCIÓN -->
       <section id="chart5-section" class="card p-6 mb-8 scroll-mt-24">
+        <!-- TITULO -->
         <h2 class="text-lg font-bold text-white mb-2">
-          <i class="fa-solid fa-triangle-exclamation text-brand-red mr-2"></i>5.
-          Riesgo de Rotación
+          <i class="fa-solid fa-triangle-exclamation text-brand-red mr-2"></i>
+          Riesgo de Rotación de Personal
         </h2>
+
+        <!-- DESCRIPCION -->
         <p class="text-sm text-gray-400 mb-3">
-          Top empleados en riesgo crítico.
+          Identifica empleados con alta probabilidad de renuncia según salario,
+          desempeño y condiciones laborales.
         </p>
 
+        <!-- VARIABLES -->
+        <div class="mb-4 p-3 bg-dark-900/30 rounded border border-dark-700">
+          <p class="text-xs text-gray-300 font-bold">Variables analizadas:</p>
+
+          <p class="text-xs text-gray-400">
+            • Nivel de riesgo de rotación (%)<br />
+            • Salario actual vs mercado<br />
+            • Desempeño laboral (%)<br />
+            • Antigüedad en la empresa (años)
+          </p>
+
+          <p class="text-xs text-gray-300 font-bold mt-3">Indicador clave:</p>
+
+          <p class="text-xs text-gray-400">
+            • Riesgo de rotación = probabilidad estimada de salida del empleado
+          </p>
+        </div>
+
+        <!-- GRAFICA -->
         <div
           class="chart-container bg-dark-900/30 rounded-lg border border-dark-700 p-2"
         >
           <canvas id="chart5"></canvas>
         </div>
-        <div class="decision-box border-brand-red">
-          <p class="text-sm text-gray-300">
-            <strong class="text-brand-red">Acción Inmediata:</strong> Programar
-            entrevistas de retención con los marcados en rojo intenso (>80%
-            riesgo).
+
+        <!-- INTERPRETACION -->
+        <div class="mt-4 p-3 bg-dark-900/30 rounded border border-dark-700">
+          <p class="text-sm text-brand-red font-bold">
+            Interpretación gerencial:
           </p>
+
+          <ul class="text-sm text-gray-400 mt-2 space-y-2">
+            <li>
+              🔴 Riesgo alto (>80%):<br />
+              → Empleado con alta probabilidad de renuncia inmediata.
+            </li>
+
+            <li>
+              🟡 Riesgo medio (50% - 80%):<br />
+              → Empleado sensible a mejoras salariales o incentivos.
+            </li>
+
+            <li>
+              🟢 Riesgo bajo (<50%):<br />
+              → Empleado estable, sin señales de salida.
+            </li>
+          </ul>
+        </div>
+
+        <!-- DECISIONES -->
+        <div class="decision-box border-brand-red">
+          <p class="text-sm text-brand-red font-bold">
+            Acciones del gerente general:
+          </p>
+
+          <ul class="text-sm text-gray-300 mt-2 space-y-2">
+            <li>
+              • Priorizar entrevistas de retención en casos críticos (>80%)
+            </li>
+
+            <li>• Ajustar salario a empleados estratégicos en riesgo</li>
+
+            <li>• Ofrecer incentivos de permanencia (bonos de retención)</li>
+
+            <li>• Revisar carga laboral en áreas con alta rotación</li>
+
+            <li>• Sustituir empleados en riesgo SOLO si no son críticos</li>
+          </ul>
         </div>
       </section>
 
       <footer
         class="mt-12 border-t border-dark-700 pt-6 text-center text-gray-500 text-sm pb-6"
       >
-        <p>&copy; 2026 Crucicel. Todos los derechos reservados.</p>
+        <p>&copy; 2026 . Todos los derechos reservados.</p>
         <p class="mt-1">
           Datos simulados para fines de demostración y análisis.
         </p>
@@ -421,81 +754,186 @@
     </main>
 
     <script>
-      // === CONFIGURACIÓN Y DATOS ===
       const names = [
-        "Ana",
+        "Adriana",
+        "Antonio",
         "Carlos",
-        "Maria",
-        "Jorge",
-        "Luis",
-        "Sofia",
-        "Pedro",
-        "Valentina",
-        "Andres",
-        "Camila",
+        "David",
+        "Daniela",
+        "Clara",
+        "Cristian",
+        "Eva",
+        "Alicia",
+        "Ariadna",
         "Roberto",
         "Elena",
+        "Mauricio",
+        "Fernanda",
+        "Javier",
+        "Lucía",
+        "Mateo",
+        "Valeria",
+        "Andrés",
+        "Camila",
+        "José",
+        "Mariana",
+        "Fernando",
+        "Gabriela",
+        "Luis",
+        "Tatiana",
+        "Miguel",
+        "Paola",
+        "Diego",
+        "Natalia",
+        "Sebastián",
+        "Patricia",
+        "Ricardo",
+        "Verónica",
+        "Alberto",
+        "Sandra",
+        "Kevin",
+        "Noelia",
+        "Bruno",
+        "Carla",
       ];
+
       const surnames = [
-        "Mamani",
-        "Quispe",
-        "Condori",
-        "Flores",
-        "Torrez",
-        "Vargas",
-        "Guzman",
-        "Pena",
+        "Ojeda",
+        "Pelayo",
+        "Sánchez",
+        "Seguí",
+        "Montalbán",
+        "Sans",
         "Rivera",
+        "Vicens",
+        "Ferréndiz",
+        "Ramón",
         "Choque",
+        "Mamani",
+        "Rojas",
+        "Gutiérrez",
+        "Vargas",
+        "Mendoza",
+        "Flores",
+        "Paredes",
+        "Salazar",
+        "Quispe",
+        "Navarro",
+        "Herrera",
+        "Cabrera",
+        "Morales",
+        "Castro",
+        "Lozano",
+        "Ortiz",
+        "Soto",
+        "Reyes",
+        "Torrez",
+        "Suárez",
+        "Valdez",
+        "Aguilar",
+        "Peñaranda",
+        "Velasco",
+        "Arias",
+        "Céspedes",
+        "Molina",
+        "Ledezma",
+        "Zambrana",
       ];
 
       const roles = [
-        { title: "Gerente General", market: 25000 },
-        { title: "Administrador", market: 12000 },
-        { title: "Contador", market: 8000 },
-        { title: "Asistente Admin", market: 5000 },
-        { title: "Recursos Humanos", market: 7000 },
-        { title: "Supervisor Ventas", market: 7500 },
-        { title: "Vendedor Senior", market: 5500 },
-        { title: "Atención Cliente", market: 4500 },
-        { title: "Soporte Técnico", market: 6000 },
-        { title: "Desarrollador Sr", market: 14000 },
-        { title: "Desarrollador Jr", market: 7000 },
-        { title: "Marketing Digital", market: 6500 },
+        { title: "Gerente General", market: 18000 },
+        { title: "Administrador", market: 8500 },
+        { title: "Contador", market: 6500 },
+        { title: "Asistente Administrativo", market: 3800 },
+        { title: "Recursos Humanos", market: 5500 },
+        { title: "Supervisor de Ventas", market: 6200 },
+        { title: "Vendedor Senior", market: 4800 },
+        { title: "Atención al Cliente", market: 3500 },
+        { title: "Soporte Técnico", market: 5000 },
+        { title: "Desarrollador Senior", market: 12000 },
+        { title: "Desarrollador Junior", market: 5500 },
+        { title: "Marketing Digital", market: 5200 },
       ];
 
       const rand = (min, max) =>
         Math.floor(Math.random() * (max - min + 1)) + min;
-      let chartInstances = {}; // Para guardar referencias a los gráficos y destruirlos al actualizar
 
+      let chartInstances = {};
+
+      // =========================================
+      // GENERAR NOMBRES ÚNICOS
+      // =========================================
+      function generateUniqueNames(total) {
+        const used = new Set();
+        const result = [];
+
+        while (result.length < total) {
+          const fullName =
+            `${names[rand(0, names.length - 1)]} ` +
+            `${surnames[rand(0, surnames.length - 1)]}`;
+
+          if (!used.has(fullName)) {
+            used.add(fullName);
+            result.push(fullName);
+          }
+        }
+
+        return result;
+      }
+
+      // =========================================
+      // GENERAR DATOS
+      // =========================================
       function generateData() {
         const employees = [];
+
+        const uniqueNames = generateUniqueNames(30);
+
         for (let i = 0; i < 30; i++) {
           const role = roles[rand(0, roles.length - 1)];
-          // Variación salarial individual
+
           const salary = Math.floor(role.market * (rand(85, 125) / 100));
+
           const years = rand(0, 15);
-          const perf = rand(40, 100);
+
+          const perf = rand(45, 100);
+
           const risk =
             salary < role.market * 0.9 && perf > 70
-              ? rand(75, 99)
+              ? rand(70, 99)
               : rand(5, 45);
 
           employees.push({
             id: i,
-            name: `${names[rand(0, names.length - 1)]} ${surnames[rand(0, surnames.length - 1)]}`,
+
+            name: uniqueNames[i],
+
             role: role.title,
+
             salary: salary,
-            marketBase: role.market, // Base real del mercado general
+
+            marketBase: role.market,
+
             years: years,
+
             perf: perf,
+
             risk: risk,
-            bonus: perf > 80 ? salary * 0.15 : perf > 60 ? salary * 0.05 : 0,
+
+            bonus:
+              perf > 85
+                ? Math.floor(salary * 0.15)
+                : perf > 70
+                  ? Math.floor(salary * 0.08)
+                  : Math.floor(salary * 0.03),
           });
         }
 
-        // Datos históricos
+        // =========================================
+        // HISTORIAL
+        // =========================================
         const history = [];
+
         const months = [
           "Ene",
           "Feb",
@@ -510,169 +948,88 @@
           "Nov",
           "Dic",
         ];
+
         let baseRev = 250000;
+
         for (let y = 2025; y <= 2026; y++) {
           for (let m = 0; m < (y === 2026 ? 5 : 12); m++) {
-            baseRev = Math.floor(baseRev * 1.015); // Crecimiento mensual
+            baseRev = Math.floor(baseRev * 1.015);
+
             history.push({
               label: `${months[m]} ${y}`,
+
               revenue: Math.floor(baseRev * (rand(95, 105) / 100)),
+
               payroll: Math.floor(baseRev * (rand(42, 48) / 100)),
             });
           }
         }
+
         return { employees, history };
       }
 
+      // =========================================
+      // CARGAR DATOS
+      // =========================================
       function loadData() {
         let d = localStorage.getItem("crucicel_v8_data");
+
         if (!d) {
           d = JSON.stringify(generateData());
+
           localStorage.setItem("crucicel_v8_data", d);
         }
+
         return JSON.parse(d);
       }
 
+      // =========================================
+      // REINICIAR
+      // =========================================
       function resetData() {
         localStorage.removeItem("crucicel_v8_data");
+
         location.reload();
       }
 
-      // === LÓGICA DE GRÁFICOS ===
-
-      // Función para obtener datos comparativos según la empresa seleccionada
-      function getComparisonData(selectedCompany, currentSalary) {
-        // Multiplicadores simulados para cada empresa respecto al salario actual o mercado base
-        switch (selectedCompany) {
-          case "empresa_a": // TechBolivia (Paga mejor)
-            return ((currentSalary * rand(1.1, 1.25)) / 100) * 100;
-          case "empresa_b": // Innovación (Paga peor al inicio, mucho variable)
-            return currentSalary * rand(0.85, 1.05);
-          case "empresa_c": // GlobalSoft (Muy competitivo, estándar alto)
-            return currentSalary * rand(1.05, 1.15);
-          case "empresa_d": // Startup (Impredecible)
-            return currentSalary * rand(0.8, 1.3);
-          default: // Mercado General
-            return currentSalary * (rand(95, 105) / 100); // Muy similar
-        }
-      }
-
-      function initDashboard() {
-        const data = loadData();
-        updateKPIs(data.employees, data.history);
-        renderChart1(data.employees); // Render inicial
-        renderChart2(data.employees);
-        renderChart3(data.history);
-        renderChart4(data.employees);
-        renderChart5(data.employees);
-      }
-
+      // =========================
+      // KPI
+      // =========================
       function updateKPIs(employees, history) {
         const totalPay = employees.reduce((s, e) => s + e.salary, 0);
+
         const avgRatio = (
           employees.reduce((s, e) => s + e.salary / e.marketBase, 0) /
           employees.length
         ).toFixed(2);
+
         const lastRev = history[history.length - 1].revenue;
 
         document.getElementById("kpi-payroll").textContent =
           `Bs. ${totalPay.toLocaleString("es-BO")}`;
+
         document.getElementById("kpi-compa").textContent = avgRatio;
+
         document.getElementById("kpi-ratio").textContent =
           `${((totalPay / lastRev) * 100).toFixed(1)}%`;
+
         document.getElementById("kpi-risk").textContent = employees.filter(
           (e) => e.risk > 80,
         ).length;
       }
 
-      // --- CHART 1: COMPETITIVIDAD (DINÁMICO) ---
-      function renderChart1(employees) {
-        const ctx = document.getElementById("chart1").getContext("2d");
-        const selector = document.getElementById("companySelector");
-        const selectedValue = selector.value;
-
-        // Agrupar por roles
-        const rolesMap = {};
-        employees.forEach((e) => {
-          if (!rolesMap[e.role])
-            rolesMap[e.role] = { internal: [], external: [] };
-
-          // Calculamos el externo basado en la selección
-          let externalSal = 0;
-          if (selectedValue === "mercado_general") {
-            externalSal = e.marketBase;
-          } else {
-            // Simulamos el dato de la otra empresa con variación
-            externalSal = Math.floor(
-              e.marketBase * getMultiplierForCompany(selectedValue),
-            );
-          }
-
-          rolesMap[e.role].internal.push(e.salary);
-          rolesMap[e.role].external.push(externalSal);
-        });
-
-        const labels = Object.keys(rolesMap);
-        const avgInternal = labels.map(
-          (r) =>
-            rolesMap[r].internal.reduce((a, b) => a + b, 0) /
-            rolesMap[r].internal.length,
-        );
-        const avgExternal = labels.map(
-          (r) =>
-            rolesMap[r].external.reduce((a, b) => a + b, 0) /
-            rolesMap[r].external.length,
-        );
-
-        if (chartInstances.chart1) chartInstances.chart1.destroy();
-
-        chartInstances.chart1 = new Chart(ctx, {
-          type: "bar",
-          data: {
-            labels: labels,
-            datasets: [
-              {
-                label: "Nuestra Empresa (Bs)",
-                data: avgInternal,
-                backgroundColor: "#3b82f6", // Brand Blue
-                borderRadius: 4,
-              },
-              {
-                label: getLabelName(selectedValue),
-                data: avgExternal,
-                backgroundColor: "#94a3b8", // Gray
-                borderRadius: 4,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { labels: { color: "#fff" } } },
-            scales: {
-              y: { grid: { color: "#334155" }, ticks: { color: "#94a3b8" } },
-              x: { grid: { display: false }, ticks: { color: "#94a3b8" } },
-            },
-          },
-        });
-      }
-
-      function updateChart1Comparison() {
-        const data = loadData();
-        renderChart1(data.employees);
-      }
-
-      // Helpers para Chart 1
+      // =========================
+      // COMPARACIÓN EMPRESAS
+      // =========================
       function getMultiplierForCompany(company) {
-        // Factores fijos para consistencia visual en la demo
         const factors = {
-          empresa_a: 1.18, // Paga 18% más
-          empresa_b: 0.92, // Paga 8% menos
-          empresa_c: 1.1, // Paga 10% más
-          empresa_d: 1.05, // Paga 5% más
+          empresa_a: 1.18,
+          empresa_b: 0.92,
+          empresa_c: 1.1,
+          empresa_d: 1.05,
         };
-        // Añadimos un poco de random pequeño para que no sea idéntico siempre si recargas, pero consistente en selección
-        return factors[company] || 1.0;
+
+        return factors[company] || 1;
       }
 
       function getLabelName(val) {
@@ -683,41 +1040,257 @@
           empresa_c: "GlobalSoft",
           empresa_d: "StartUp Hub",
         };
+
         return names[val] || "Competencia";
       }
 
-      // --- CHART 2: EQUIDAD ---
-      function renderChart2(employees) {
-        const ctx = document.getElementById("chart2").getContext("2d");
-        if (chartInstances.chart2) chartInstances.chart2.destroy();
+      // =========================
+      // GRÁFICA 1
+      // =========================
+      // =========================
+      // GRÁFICA 1 - COMPETITIVIDAD SALARIAL
+      // =========================
+      function renderChart1(employees) {
+        const ctx = document.getElementById("chart1").getContext("2d");
 
-        chartInstances.chart2 = new Chart(ctx, {
-          type: "scatter",
+        const selector = document.getElementById("companySelector");
+        const selectedValue = selector.value;
+
+        const rolesMap = {};
+
+        // AGRUPAR DATOS POR CARGO
+        employees.forEach((e) => {
+          if (!rolesMap[e.role]) {
+            rolesMap[e.role] = {
+              internal: [],
+              external: [],
+            };
+          }
+
+          let externalSal = 0;
+
+          if (selectedValue === "mercado_general") {
+            externalSal = e.marketBase;
+          } else {
+            externalSal = Math.floor(
+              e.marketBase * getMultiplierForCompany(selectedValue),
+            );
+          }
+
+          rolesMap[e.role].internal.push(e.salary);
+          rolesMap[e.role].external.push(externalSal);
+        });
+
+        const labels = Object.keys(rolesMap);
+
+        // PROMEDIO INTERNO
+        const avgInternal = labels.map((r) => {
+          return (
+            rolesMap[r].internal.reduce((a, b) => a + b, 0) /
+            rolesMap[r].internal.length
+          );
+        });
+
+        // PROMEDIO EXTERNO
+        const avgExternal = labels.map((r) => {
+          return (
+            rolesMap[r].external.reduce((a, b) => a + b, 0) /
+            rolesMap[r].external.length
+          );
+        });
+
+        // =========================
+        // BRECHA SALARIAL (%)
+        // =========================
+        const brechas = labels.map((r, i) => {
+          return ((avgInternal[i] - avgExternal[i]) / avgExternal[i]) * 100;
+        });
+
+        // =========================
+        // COLORES SEMÁFORO
+        // =========================
+        const coloresRiesgo = brechas.map((b) => {
+          if (b < -10) return "#ef4444"; // 🔴 riesgo fuga
+          if (b >= -10 && b <= 10) return "#f97316"; // 🟡 neutro
+          return "#10b981"; // 🟢 ventaja
+        });
+
+        // DESTRUIR GRÁFICA ANTERIOR
+        if (chartInstances.chart1) {
+          chartInstances.chart1.destroy();
+        }
+
+        // =========================
+        // CREAR GRÁFICA
+        // =========================
+        chartInstances.chart1 = new Chart(ctx, {
+          type: "bar",
           data: {
+            labels: labels,
             datasets: [
               {
-                label: "Empleados",
-                data: employees.map((e) => ({ x: e.years, y: e.salary })),
-                backgroundColor: "#8b5cf6",
-                pointRadius: 6,
-                pointHoverRadius: 8,
+                label: "Nuestra Empresa",
+                data: avgInternal,
+                backgroundColor: coloresRiesgo,
+                borderRadius: 6,
+              },
+              {
+                label: getLabelName(selectedValue),
+                data: avgExternal,
+                backgroundColor: "#94a3b8",
+                borderRadius: 6,
               },
             ],
           },
+
           options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
+
+            plugins: {
+              legend: {
+                labels: {
+                  color: "#fff",
+                },
+              },
+
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    const i = context.dataIndex;
+
+                    return [
+                      `${context.dataset.label}`,
+                      `Salario: Bs. ${context.raw.toLocaleString("es-BO")}`,
+                      `Brecha salarial: ${brechas[i].toFixed(1)}%`,
+                      brechas[i] < -10
+                        ? "🔴 Riesgo alto de fuga"
+                        : brechas[i] <= 10
+                          ? "🟡 Zona estable"
+                          : "🟢 Ventaja salarial",
+                    ];
+                  },
+                },
+              },
+            },
+
+            scales: {
+              y: {
+                grid: { color: "#334155" },
+                ticks: { color: "#94a3b8" },
+              },
+
+              x: {
+                grid: { display: false },
+                ticks: { color: "#94a3b8" },
+              },
+            },
+          },
+        });
+      }
+      function updateChart1Comparison() {
+        const data = loadData();
+        renderChart1(data.employees);
+      }
+
+      // =========================
+      // GRÁFICA 2
+      // =========================
+      // =========================
+      // GRÁFICA 2 - EQUIDAD INTERNA (CORREGIDA)
+      // =========================
+      function renderChart2(employees) {
+        const ctx = document.getElementById("chart2").getContext("2d");
+
+        if (chartInstances.chart2) {
+          chartInstances.chart2.destroy();
+        }
+
+        // =========================
+        // CLASIFICACIÓN REAL RRHH
+        // =========================
+        const getColor = (years, salary, marketBase) => {
+          const expected = marketBase * (1 + years * 0.03);
+          const diff = (salary - expected) / expected;
+
+          // 🔴 CRÍTICO: desajuste fuerte (muy alto o muy bajo)
+          if (diff > 0.15) return "#ef4444"; // sobrepagado (riesgo financiero)
+          if (diff < -0.15) return "#ef4444"; // subpagado (riesgo de fuga)
+
+          // 🟡 ALERTA: ligera desviación
+          if (diff > 0.05 || diff < -0.05) return "#f97316";
+
+          // 🟢 SALUDABLE
+          return "#10b981";
+        };
+
+        chartInstances.chart2 = new Chart(ctx, {
+          type: "scatter",
+
+          data: {
+            datasets: [
+              {
+                label: "Equidad interna (empleados)",
+
+                data: employees.map((e) => ({
+                  x: e.years,
+                  y: e.salary,
+                  name: e.name,
+                  role: e.role,
+                  market: e.marketBase,
+                })),
+
+                backgroundColor: employees.map((e) =>
+                  getColor(e.years, e.salary, e.marketBase),
+                ),
+
+                pointRadius: 7,
+                pointHoverRadius: 10,
+              },
+            ],
+          },
+
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            plugins: {
+              legend: {
+                display: false,
+              },
+
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    const d = context.raw;
+
+                    const expected = d.market * (1 + d.x * 0.03);
+                    const diff = ((d.y - expected) / expected) * 100;
+
+                    return [
+                      `Empleado: ${d.name}`,
+                      `Cargo: ${d.role}`,
+                      `Antigüedad: ${d.x} años`,
+                      `Salario real: Bs. ${d.y.toLocaleString("es-BO")}`,
+                      `Salario esperado: Bs. ${expected.toFixed(0)}`,
+                      `Brecha: ${diff.toFixed(1)}%`,
+                    ];
+                  },
+                },
+              },
+            },
+
             scales: {
               x: {
                 title: {
                   display: true,
-                  text: "Antigüedad (Años)",
+                  text: "Antigüedad (años)",
                   color: "#94a3b8",
                 },
                 grid: { color: "#334155" },
                 ticks: { color: "#94a3b8" },
               },
+
               y: {
                 title: {
                   display: true,
@@ -731,40 +1304,116 @@
           },
         });
       }
+      // 3333333333333333333
 
-      // --- CHART 3: TIEMPO ---
+      // =========================
+      // GRÁFICA 3 - SOSTENIBILIDAD FINANCIERA DEL PERSONAL
+      // =========================
       function renderChart3(history) {
         const ctx = document.getElementById("chart3").getContext("2d");
-        if (chartInstances.chart3) chartInstances.chart3.destroy();
+
+        if (chartInstances.chart3) {
+          chartInstances.chart3.destroy();
+        }
+
+        // =========================
+        // ÍNDICE REAL DE SOSTENIBILIDAD
+        // =========================
+        const getStatusColor = (ingresos, costoPersonal) => {
+          const ratio = costoPersonal / ingresos; // más estándar en empresas reales
+
+          if (ratio > 0.7) return "#ef4444"; // 🔴 crítico (insostenible)
+          if (ratio > 0.5) return "#f97316"; // 🟡 ajustado (riesgo)
+          return "#10b981"; // 🟢 saludable
+        };
+
+        const pointColors = history.map((h) =>
+          getStatusColor(h.revenue, h.payroll),
+        );
 
         chartInstances.chart3 = new Chart(ctx, {
           type: "line",
+
           data: {
             labels: history.map((h) => h.label),
+
             datasets: [
               {
-                label: "Ingresos",
+                label: "Ventas netas (Ingresos)",
+
                 data: history.map((h) => h.revenue),
+
                 borderColor: "#10b981",
                 backgroundColor: "rgba(16,185,129,0.1)",
                 fill: true,
                 tension: 0.4,
               },
+
               {
-                label: "Costo Personal",
+                label: "Costo total de personal",
+
                 data: history.map((h) => h.payroll),
+
                 borderColor: "#ef4444",
                 borderDash: [5, 5],
                 tension: 0.4,
+
+                pointBackgroundColor: pointColors,
+                pointRadius: 6,
               },
             ],
           },
+
           options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { labels: { color: "#fff" } } },
+
+            plugins: {
+              legend: {
+                labels: {
+                  color: "#fff",
+                },
+              },
+
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    const value = context.raw;
+
+                    const data = history[context.dataIndex];
+
+                    const ingresos = data.revenue;
+                    const costo = data.payroll;
+
+                    const ratio = (costo / ingresos) * 100;
+
+                    let estado = "🟢 Saludable";
+
+                    if (ratio > 70) estado = "🔴 Crítico";
+                    else if (ratio > 50) estado = "🟡 Ajustado";
+
+                    // 🔎 TOOLTIP MÁS REALISTA
+                    if (context.dataset.label.includes("Costo")) {
+                      return [
+                        `Ventas netas: Bs. ${ingresos.toLocaleString("es-BO")}`,
+                        `Costo total personal: Bs. ${costo.toLocaleString("es-BO")}`,
+                        `Peso del personal: ${ratio.toFixed(1)}% de las ventas`,
+                        `Estado: ${estado}`,
+                      ];
+                    }
+
+                    return `${context.dataset.label}: Bs. ${value.toLocaleString("es-BO")}`;
+                  },
+                },
+              },
+            },
+
             scales: {
-              y: { grid: { color: "#334155" }, ticks: { color: "#94a3b8" } },
+              y: {
+                grid: { color: "#334155" },
+                ticks: { color: "#94a3b8" },
+              },
+
               x: {
                 grid: { color: "#334155" },
                 ticks: { color: "#94a3b8", maxRotation: 45 },
@@ -773,40 +1422,106 @@
           },
         });
       }
-
-      // --- CHART 4: INCENTIVOS ---
+      // =========================
+      // GRÁFICA 4
+      // =========================
+      // =========================
+      // GRÁFICA 4 - INCENTIVOS
+      // =========================
       function renderChart4(employees) {
         const ctx = document.getElementById("chart4").getContext("2d");
-        if (chartInstances.chart4) chartInstances.chart4.destroy();
 
+        if (chartInstances.chart4) {
+          chartInstances.chart4.destroy();
+        }
+
+        // =========================
+        // CLASIFICACIÓN INCENTIVOS
+        // =========================
+        const getColor = (bonus, perf) => {
+          const ratio = perf / (bonus || 1);
+
+          // 🔴 Bono alto con bajo desempeño (mal uso de incentivos)
+          if (bonus > 3000 && perf < 70) return "#ef4444";
+
+          // 🟢 Alto desempeño con bajo bono (riesgo de desmotivación)
+          if (perf > 85 && bonus < 2000) return "#10b981";
+
+          // 🟡 equilibrado
+          return "#facc15";
+        };
+
+        // =========================
+        // GRAFICA
+        // =========================
         chartInstances.chart4 = new Chart(ctx, {
           type: "scatter",
+
           data: {
             datasets: [
               {
-                label: "Empleado",
-                data: employees.map((e) => ({ x: e.bonus, y: e.perf })),
+                label: "Relación Incentivo vs Desempeño",
+
+                data: employees.map((e) => ({
+                  x: e.bonus,
+                  y: e.perf,
+                  name: e.name,
+                  role: e.role,
+                })),
+
                 backgroundColor: employees.map((e) =>
-                  e.perf > 80 ? "#f97316" : "#3b82f6",
+                  getColor(e.bonus, e.perf),
                 ),
+
                 pointRadius: 7,
+                pointHoverRadius: 10,
               },
             ],
           },
+
           options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
+
+            plugins: {
+              legend: {
+                display: false,
+              },
+
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    const d = context.raw;
+
+                    const eficiencia = ((d.y / (d.x || 1)) * 100).toFixed(1);
+
+                    return [
+                      `Empleado: ${d.name}`,
+                      `Cargo: ${d.role}`,
+                      `Bono recibido: Bs. ${d.x.toLocaleString("es-BO")}`,
+                      `Desempeño: ${d.y}%`,
+                      `Eficiencia incentivo: ${eficiencia}%`,
+                    ];
+                  },
+                },
+              },
+            },
+
             scales: {
               x: {
-                title: { display: true, text: "Bono (Bs)", color: "#94a3b8" },
+                title: {
+                  display: true,
+                  text: "Bonos e Incentivos (Bs)",
+                  color: "#94a3b8",
+                },
                 grid: { color: "#334155" },
                 ticks: { color: "#94a3b8" },
               },
+
               y: {
                 title: {
                   display: true,
-                  text: "Desempeño (Score)",
+                  text: "Desempeño laboral (%)",
                   color: "#94a3b8",
                 },
                 grid: { color: "#334155" },
@@ -818,59 +1533,155 @@
           },
         });
       }
-
-      // --- CHART 5: RIESGO ---
+      // =========================
+      // GRÁFICA 5
+      // =========================
       function renderChart5(employees) {
         const ctx = document.getElementById("chart5").getContext("2d");
-        if (chartInstances.chart5) chartInstances.chart5.destroy();
 
-        // Filtrar top riesgos
-        const highRisk = employees
-          .filter((e) => e.risk > 40)
-          .sort((a, b) => b.risk - a.risk)
-          .slice(0, 10);
+        if (chartInstances.chart5) {
+          chartInstances.chart5.destroy();
+        }
+
+        // =========================
+        // TOP RIESGO (ordenado real)
+        // =========================
+        const sorted = employees.sort((a, b) => b.risk - a.risk).slice(0, 12);
+
+        // =========================
+        // COLOR SEMÁFORO REAL
+        // =========================
+        const getColor = (risk) => {
+          if (risk >= 80) return "#ef4444"; // 🔴 crítico
+          if (risk >= 50) return "#f97316"; // 🟠 medio
+          return "#10b981"; // 🟢 bajo
+        };
 
         chartInstances.chart5 = new Chart(ctx, {
           type: "bar",
+
           data: {
-            labels: highRisk.map((e) => e.name),
+            labels: sorted.map((e) => e.name),
+
             datasets: [
               {
-                label: "% Riesgo",
-                data: highRisk.map((e) => e.risk),
-                backgroundColor: highRisk.map((e) =>
-                  e.risk > 80 ? "#ef4444" : e.risk > 60 ? "#f97316" : "#3b82f6",
-                ),
-                borderRadius: 4,
+                label: "Riesgo de Rotación (%)",
+
+                data: sorted.map((e) => e.risk),
+
+                backgroundColor: sorted.map((e) => getColor(e.risk)),
+
+                borderRadius: 6,
               },
             ],
           },
+
           options: {
             indexAxis: "y",
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
+
+            plugins: {
+              legend: {
+                display: false,
+              },
+
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    const e = sorted[context.dataIndex];
+                    const value = context.raw;
+
+                    // =========================
+                    // SALARIO VS MERCADO
+                    // =========================
+                    const expected = e.marketBase || e.salary;
+                    const gap = ((e.salary - expected) / expected) * 100;
+
+                    let nivel = "";
+                    let recomendacion = "";
+
+                    if (value >= 80) {
+                      nivel = "🔴 CRÍTICO";
+                      recomendacion =
+                        "Acción inmediata: entrevista de retención + ajuste salarial o incentivo.";
+                    } else if (value >= 50) {
+                      nivel = "🟠 MEDIO";
+                      recomendacion =
+                        "Monitoreo activo: riesgo de salida si aparece mejor oferta.";
+                    } else {
+                      nivel = "🟢 BAJO";
+                      recomendacion = "Empleado estable, sin señales de fuga.";
+                    }
+
+                    let gapText = "";
+
+                    if (gap < -10) {
+                      gapText = `🔻 -${Math.abs(gap).toFixed(1)}% bajo mercado (alto riesgo de fuga)`;
+                    } else if (gap > 10) {
+                      gapText = `🔺 +${gap.toFixed(1)}% sobre mercado (costo elevado)`;
+                    } else {
+                      gapText = `⚖️ ${gap.toFixed(1)}% dentro del mercado (equilibrado)`;
+                    }
+
+                    return [
+                      `Empleado: ${e.name}`,
+                      `Cargo: ${e.role}`,
+                      `Antigüedad: ${e.years ?? "N/A"} años`,
+                      `Desempeño: ${e.perf ?? "N/A"}%`,
+                      `Salario actual: Bs. ${e.salary.toLocaleString("es-BO")}`,
+                      `Salario mercado: Bs. ${expected.toLocaleString("es-BO")}`,
+                      `Brecha salarial: ${gapText}`,
+                      `Riesgo de rotación: ${value}%`,
+                      `Nivel: ${nivel}`,
+                      `Interpretación: ${recomendacion}`,
+                    ];
+                  },
+                },
+              },
+            },
+
             scales: {
               x: {
                 max: 100,
                 grid: { color: "#334155" },
                 ticks: { color: "#94a3b8" },
               },
-              y: { grid: { display: false }, ticks: { color: "#fff" } },
+
+              y: {
+                grid: { display: false },
+                ticks: { color: "#fff" },
+              },
             },
           },
         });
       }
-
-      // === UTILS UI ===
+      // =========================
+      // UTILIDADES
+      // =========================
       function setActive(element) {
         document
           .querySelectorAll(".sidebar-link")
           .forEach((el) => el.classList.remove("active"));
+
         element.classList.add("active");
       }
 
-      // === INIT ===
+      // =========================
+      // INICIAR
+      // =========================
+      function initDashboard() {
+        const data = loadData();
+
+        updateKPIs(data.employees, data.history);
+
+        renderChart1(data.employees);
+        renderChart2(data.employees);
+        renderChart3(data.history);
+        renderChart4(data.employees);
+        renderChart5(data.employees);
+      }
+
       window.addEventListener("load", initDashboard);
     </script>
   </body>

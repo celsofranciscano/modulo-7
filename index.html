@@ -332,9 +332,7 @@
 
             <option value="empresa_c">GlobalSoft</option>
 
-            <option value="empresa_d">
-              StartUp Hub
-            </option>
+            <option value="empresa_d">StartUp Hub</option>
           </select>
         </div>
 
@@ -1199,6 +1197,10 @@
       // =========================
       // GRÁFICA 2 - EQUIDAD INTERNA (CORREGIDA)
       // =========================
+
+      // =========================
+      // GRÁFICA 2 - EQUIDAD INTERNA (CON DATOS ALEATORIOS)
+      // =========================
       function renderChart2(employees) {
         const ctx = document.getElementById("chart2").getContext("2d");
 
@@ -1206,21 +1208,20 @@
           chartInstances.chart2.destroy();
         }
 
-        // =========================
-        // CLASIFICACIÓN REAL RRHH
-        // =========================
+        // Generar desempeño aleatorio si no existe
+        const enrichedEmployees = employees.map((e) => ({
+          ...e,
+          performance: e.performance ?? Math.floor(Math.random() * 41) + 60, // 60 - 100
+        }));
+
         const getColor = (years, salary, marketBase) => {
           const expected = marketBase * (1 + years * 0.03);
           const diff = (salary - expected) / expected;
 
-          // 🔴 CRÍTICO: desajuste fuerte (muy alto o muy bajo)
-          if (diff > 0.15) return "#ef4444"; // sobrepagado (riesgo financiero)
-          if (diff < -0.15) return "#ef4444"; // subpagado (riesgo de fuga)
-
-          // 🟡 ALERTA: ligera desviación
+          if (diff > 0.15) return "#ef4444";
+          if (diff < -0.15) return "#ef4444";
           if (diff > 0.05 || diff < -0.05) return "#f97316";
 
-          // 🟢 SALUDABLE
           return "#10b981";
         };
 
@@ -1232,15 +1233,16 @@
               {
                 label: "Equidad interna (empleados)",
 
-                data: employees.map((e) => ({
+                data: enrichedEmployees.map((e) => ({
                   x: e.years,
                   y: e.salary,
                   name: e.name,
                   role: e.role,
                   market: e.marketBase,
+                  performance: e.performance,
                 })),
 
-                backgroundColor: employees.map((e) =>
+                backgroundColor: enrichedEmployees.map((e) =>
                   getColor(e.years, e.salary, e.marketBase),
                 ),
 
@@ -1271,6 +1273,7 @@
                       `Empleado: ${d.name}`,
                       `Cargo: ${d.role}`,
                       `Antigüedad: ${d.x} años`,
+                      `Desempeño: ${d.performance}/100`,
                       `Salario real: Bs. ${d.y.toLocaleString("es-BO")}`,
                       `Salario esperado: Bs. ${expected.toFixed(0)}`,
                       `Brecha: ${diff.toFixed(1)}%`,
